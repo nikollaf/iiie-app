@@ -23,3 +23,4 @@ Route::controller('events','EventController' );
 Route::controller('articles', 'ArticleController');
 
 Route::controller('resources', 'ResourceController');
+

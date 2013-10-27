@@ -15,6 +15,7 @@ class CreateEventsTable extends Migration {
         {
             $table->increments('event_id');
             $table->string('event_title');
+            $table->string('event_status');
 
             $table->string('event_info');
             $table->foreign('user_id')->references('id')->on('users');

@@ -5,8 +5,10 @@
 	"license": "MIT",
 	"require": {
 		"laravel/framework": "4.0.*",
-        "mews/purifier": "dev-master"
-	},
+        "mews/purifier": "dev-master",
+        "mews/captcha": "dev-master",
+        "mandrill/mandrill": "dev-master"
+    },
 	"autoload": {
 		"classmap": [
 			"app/commands",
@@ -34,5 +36,12 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "dev"
+	"minimum-stability": "dev",
+  "repositories": [
+    {
+         "type": "composer", 
+         "url": "https://packagist.org"
+    },
+    { "packagist": false }
+]
 }

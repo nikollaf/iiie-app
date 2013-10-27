@@ -114,7 +114,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
         'Mews\Purifier\PurifierServiceProvider',
-
+        'Mews\Captcha\CaptchaServiceProvider'
 	),
 
 	/*
@@ -180,7 +180,7 @@ return array(
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
         'Purifier'        => 'Mews\Purifier\Facades\Purifier',
-
+        'Captcha' => 'Mews\Captcha\Facades\Captcha'
 	),
 
 );

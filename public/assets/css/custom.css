@@ -92,6 +92,13 @@ a {
 }
 /** top navigation **/
 
+
+.admin-alert {
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #34495e;
+    color: white;
+}
 .nav .btn {
     margin: 7px 7px 0 0;
     padding: 6px;
@@ -120,6 +127,38 @@ div#footer p {
 #content {
     padding-bottom: 20px;
 }
+
+ul.social-links {
+
+    margin-top: 10px;
+    list-style: none;
+}
+
+ul.social-links li {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.facebook-icon {
+    height: 48px;
+    width: 48px;
+    background: url("../img/facebook_grey.png");
+}
+.youtube-icon {
+    height: 48px;
+    width: 48px;
+    background-image: url("../img/you_tube_grey.png");
+}
+
+.facebook-icon:hover {
+    background: url("../img/facebook.png");
+}
+
+.youtube-icon:hover {
+    background: url("../img/you_tube.png");
+}
+
+
 
 /** Content ***/
 
@@ -219,6 +258,41 @@ div#footer p {
 
 
 /** Navigation **/
+
+.btn-add-resource {
+    background-color: #27ae60;
+    color: white;
+    margin: 0 0 10px 15px;
+}
+
+.btn-add-resource:hover {
+    background-color: white;
+    border-color: #27ae60;
+}
+
+.btn-add-article {
+    background-color: #c0392b;
+    color: white;
+    margin: 0 0 18px 15px;
+}
+
+.btn-add-article:hover {
+    background-color: white;
+    border-color: #c0392b;
+}
+
+.btn-add-blog {
+    background-color: #2980b9;
+    color: white;
+    margin: 0 0 0 15px;
+}
+
+.btn-add-blog:hover {
+    background-color: white;
+    border-color: #2980b9;
+}
+
+
 a:hover {
     text-decoration: none;
 }

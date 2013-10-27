@@ -168,7 +168,9 @@ class AccountController extends AuthorizedController
 	 */
 	public function getRegister()
 	{
-		// Are we logged in?
+        $captchaImage  =  HTML::image(Captcha::img(), 'Captcha image');
+
+        // Are we logged in?
 		//
 		if (Auth::check())
 		{
@@ -177,7 +179,7 @@ class AccountController extends AuthorizedController
 
 		// Show the page.
 		//
-		return View::make('account/register');
+		return View::make('account/register', array('captchaImage' => $captchaImage ));
 	}
 
 	/**
@@ -195,38 +197,47 @@ class AccountController extends AuthorizedController
 			'last_name'             => 'Required',
 			'email'                 => 'Required|Email|Unique:users',
 			'password'              => 'Required|Confirmed',
-			'password_confirmation' => 'Required'
+            'password_confirmation' => 'Required',
+			'captcha'               => array('required', 'captcha')
 		);
 
 		// Get all the inputs.
 		//
 		$inputs = Input::all();
 
+        $messages = array(
+            'captcha' => 'Looks like you made a mistake. Try again!'
+        );
 		// Validate the inputs.
 		//
-		$validator = Validator::make($inputs, $rules);
+		$validator = Validator::make($inputs, $rules, $messages);
 
-		// Check if the form validates with success.
-		//
-		if ($validator->passes())
+        // Something went wrong.
+        //
+		if ($validator->fails())
 		{
-			// Create the user.
-			//
-			$user = new User;
-			$user->first_name = Input::get('first_name');
-			$user->last_name  = Input::get('last_name');
-			$user->email      = Input::get('email');
-			$user->password   = Hash::make(Input::get('password'));
-			$user->save();
+            return Redirect::to('account/register')->withInput($inputs)->withErrors($validator->getMessageBag());
+        }
 
-			// Redirect to the register page.
-			//
-			return Redirect::to('account/register')->with('success', 'Account created with success!');
-		}
 
-		// Something went wrong.
-		//
-		return Redirect::to('account/register')->withInput($inputs)->withErrors($validator->getMessageBag());
+        // Create the user.
+        //
+        $user = new User;
+        $user->first_name = Input::get('first_name');
+        $user->last_name  = Input::get('last_name');
+        $user->email      = Input::get('email');
+        $user->password   = Hash::make(Input::get('password'));
+        $user->save();
+
+        $response = MandrillMailSender::sendRegistrationEmail( array(
+            'to_name' => $user->first_name  . $user->last_name,
+            'to_email' => $user->email
+        ));
+
+
+        // Redirect to the register page.
+        //
+        return Redirect::to('account/register')->with('success', 'Account created with success!');
 	}
 
 	/**

@@ -3,9 +3,13 @@
 @section('content')
 
     <div class="row">
+         <h3 class="page-title"></h3>
+      
+          <a class="btn btn-add-resource" href="{{{ URL::to('resources/add') }}}"><span class="glyphicon glyphicon-plus"></span> Add Resource</a>
+        
+    </div>
 
-            <h3 class="page-title"></h3>
-
+    <div class="row">
                 <div class="col-md-3">
                     <h4 class="resource-title">Beginner</h4>
                     @foreach($beginner_resources as $resource)

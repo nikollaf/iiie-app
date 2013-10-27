@@ -26,9 +26,9 @@ class BlogController extends AuthorizedController
         // show the page with blogs
        // $blogs = Blog::all()->paginate(2);
 
-        //$blogs = Blog::paginate(4)->orderBy('created_at', 'DESC');
 
-        $blogs = Blog::take(4)->orderBy('created_at', 'DESC')->paginate(4);
+
+        $blogs = Blog::where('blog_post_status','LIKE', 'APPROVED')->orderBy('created_at', 'DESC')->paginate(4);
         //$users = User::where('votes', '>', 100)->paginate(15);
 
 
@@ -46,6 +46,71 @@ class BlogController extends AuthorizedController
         return View::make('blogs.blog', array('blog' => $blog, 'blogs' => $blogs));
     }
 
+
+
+    /**
+     * Show the edit page
+     *
+     * @access   private
+     * 
+     */
+    public function getEdit($id)
+    {
+         $blog = Blog::find($id);
+
+        // $admin = User::where('user_role', 'LIKE', 'admin')->get();
+        //
+        if (Auth::check())
+        {
+            return View::make('blogs/add', array('blog' => $blog));
+        }
+
+        // Show the page.
+        //
+        return View::make('blogs');
+    }
+
+    /**
+     * Show the edit page
+     *
+     * @access   public
+     * @return   Redirect
+     */
+    public function postEdit()
+    {
+        // Declare the rules for the form validation.
+        //
+        $rules = array(
+            'blog_post_status' => 'Required'
+        );
+
+        // Get all the inputs.
+        //
+        $inputs = Input::all();
+
+        // Validate the inputs.
+        //
+        $validator = Validator::make($inputs, $rules);
+
+        // Check if the form validates with success.
+        //
+        if ($validator->passes())
+        {
+            // Create the user.
+            //
+            $blog                   =  Blog::find(Input::get('blog_id'));
+            $blog->blog_post_status = Input::get('blog_post_status');
+            $blog->save();
+
+            // Redirect to the register page.
+            //
+            return Redirect::to('blogs')->with('success', 'Blog updated with success!');
+        }
+
+        // Something went wrong.
+        //
+        return Redirect::to('blogs/edit/' . Input::get('blog_id'))->withInput($inputs)->withErrors($validator->getMessageBag());
+    }
 
     /**
      * Show the page to add blogs
@@ -109,7 +174,7 @@ class BlogController extends AuthorizedController
 
             // Redirect to the register page.
             //
-            return Redirect::to('blogs')->with('success', 'Account created with success!');
+            return Redirect::to('blogs')->with('success', 'Thank you! We will show your blog as soon as it gets approved');
         }
 
         // Something went wrong.

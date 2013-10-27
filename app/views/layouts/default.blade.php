@@ -21,12 +21,12 @@
 		================================================== -->
 
 
-		<link href="/projects/laravel/public/assets/css/bootstrap.css" rel="stylesheet">
-		<link href="/projects/laravel/public/assets/css/bootstrap-responsive.css" rel="stylesheet">
-        <link href="/projects/laravel/public/assets/css/datepicker.css" rel="stylesheet">
+		{{ HTML::style('assets/css/bootstrap.css') }}
+        {{ HTML::style('assets/css/bootstrap-responsive.css') }}
+        {{ HTML::style('assets/css/datepicker.css') }}
+        {{ HTML::style('assets/css/custom.css') }}
 
-        <link href="/projects/laravel/public/assets/css/custom.css" rel="stylesheet">
-
+        {{ HTML::script("http://code.jquery.com/jquery-1.10.1.min.js") }}
         <!-- ckeditor -->
 
 
@@ -63,8 +63,16 @@
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-
-
+             @if (Auth::check())
+                @if (isset($admin))
+                    <ul class="nav navbar-nav navbar-left">
+                        <div class="admin-alert">
+                            <strong>Hey Admin!</strong> You have
+                            <a data-toggle="modal" href="#inReview"  class="label label-danger">{{ count($in_review_blogs) + count($in_review_events)}}</a> posts to review!
+                        </div>
+                    </ul>
+                @endif
+            @endif
                 <ul class="nav navbar-nav navbar-right">
                     @if (Auth::check())
                     <!--
@@ -106,20 +114,21 @@
             </div>
         </nav>
 
+       
+        
         <!-- Top Header Title -->
         <div id="header">
             <div class="container">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <h1>IIIE.</h1>
                     </div>
 
                     <!-- Social Links -->
-                    <div class="col-md-4 col-md-offset-4">
-                        <ul class="nav nav-pills">
-                            <li><a href="#"><i class="facebook icon"></i></a></li>
-                            <li><a href="#"><i class="youtube icon"></i></a></li>
-
+                    <div class="col-md-2 col-md-offset-7">
+                        <ul class="social-links">
+                            <li><a href=""><div class="facebook-icon"></div></a></li>
+                            <li><a href=""><div class="youtube-icon"></div></a></li>
                         </ul>
                     </div>
                 </div>
@@ -133,13 +142,14 @@
             <div class="container">
                 <div class="row">
                     <ul class="nav nav-pills content-nav">
-                        <li {{ (Request::is('server.php') ? 'class="active"' : '') }}><a href="http://localhost/projects/laravel/server.php">Home</a></li>
+                        <li {{ (Request::is('server.php') ? 'class="active"' : '') }}><a href="">Home</a></li>
                         <li {{ (Request::is('events') ? 'class="active"' : '') }}><a href="{{{ URL::to('events') }}}">Events</a></li>
                         <li {{ (Request::is('blogs') ? 'class="active"' : '') }}><a href="{{{ URL::to('blogs') }}}">Blog</a></li>
                         <li {{ (Request::is('articles') ? 'class="active"' : '') }}><a href="{{{ URL::to('articles') }}}">Articles</a></li>
                         <li {{ (Request::is('resources') ? 'class="active"' : '') }}><a href="{{{ URL::to('resources') }}}">Resources</a></li>
                         <li {{ (Request::is('videos') ? 'class="active"' : '') }}><a href="#">Videos</a></li>
                         <li {{ (Request::is('videos') ? 'class="active"' : '') }}><a href="#">Contact</a></li>
+                        <li><a href="https://www.paypal.com/us/cgi-bin/webscr?cmd=_flow&SESSION=ZkHFDOTvFpNnwVuNeM_GQwIbKS0MedEY4d_QoCfgCIPYQmeXQQJ-jJjI5zy&dispatch=50a222a57771920b6a3d7b606239e4d529b525e0b7e69bf0224adecfb0124e9b61f737ba21b081986471f9b93cfa01e00b63629be0164db1">Give</a></li>
                     </ul>
                 </div>
 
@@ -182,12 +192,17 @@
 		<!-- Javascripts
 		================================================== -->
 
-        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-        <script src="/projects/laravel/vendor/ckeditor/ckeditor.js"></script>
-        <script src="/projects/laravel/vendor/ckeditor/adapters/jquery.js"></script>
-        <script src="/projects/laravel/public/assets/js/custom.js"></script>
-        <script src="/projects/laravel/public/assets/js/bootstrap-datepicker.js"></script>
-        <script src="/projects/laravel/public/assets/js/bootstrap.min.js"></script>
+
+
+
+
+        {{ HTML::script('assets/js/custom.js') }}
+        {{ HTML::script('assets/js/bootstrap-datepicker.js') }}
+        {{ HTML::script('assets/js/bootstrap.min.js') }}
+
+        {{ HTML::script('assets/ckeditor/ckeditor.js') }}
+        {{ HTML::script('assets/ckeditor/adapters/jquery.js') }}
+
 
 	</body>
 </html>

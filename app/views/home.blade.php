@@ -1,6 +1,37 @@
 @extends('layouts.default')
 
 @section('content')
+        @if (Auth::check())
+        <!-- Modal -->
+        <div class="modal fade" id="inReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">In Review</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Blogs</h4>
+                        @foreach($in_review_blogs as $blog)
+
+                            <h5><a href="{{{ URL::to('blogs/edit/'.$blog->id) }}}">{{ $blog->title}}</a></h5>
+
+
+                                <span class="blog-cred">by</span><a class="blog-author" href=""> {{{ $blog->user->fullName() }}}</a>
+                                <span class="bloc-date">{{ date("M j, Y", strtotime($blog->created_at)) }}</span>
+                        @endforeach
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        @endif
+
     <div class="row">
         <div class="col-md-4 event-color">
             <h3><a href="{{{ URL::to('events') }}}">Events</a></h3>

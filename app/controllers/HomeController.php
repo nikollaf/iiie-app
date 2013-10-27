@@ -18,13 +18,26 @@ class HomeController extends BaseController {
 	public function showIndex()
 	{
 
+        $admin = User::where('user_role', 'LIKE', 'admin')->get();
 
-        $blogs = Blog::take(4)->orderBy('created_at', 'DESC')->get();
+        $in_review_blogs  = Blog::where('blog_post_status','LIKE', 'IN REVIEW')->orderBy('created_at', 'DESC')->get();
+        
+        $in_review_events = Event::where('event_status','LIKE', 'IN REVIEW')->orderBy('created_at', 'DESC')->get();
+
+
+
+        $blogs = Blog::where('blog_post_status','LIKE', 'APPROVED')->orderBy('created_at', 'DESC')->get();
         $events = Event::take(4)->orderBy('created_at', 'DESC')->get();
         $articles = Article::take(4)->orderBy('created_at', 'DESC')->get();
 
 
-        return View::make('home', array('blogs' => $blogs, 'events' => $events, 'articles' => $articles));
+        return View::make('home', array('blogs' => $blogs,
+            'events' => $events,
+            'articles' => $articles,
+            'admin' => $admin,
+            'in_review_blogs' => $in_review_blogs,
+            'in_review_events' => $in_review_events
+        ));
 	}
 
 }

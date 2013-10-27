@@ -67,6 +67,18 @@
             </div>
             <!-- ./ password confirm -->
 
+            <!-- Password Confirm -->
+            <div class="form-group">
+                <label for="captcha">Enter the text in this image below</label>
+
+                <?php echo $captchaImage; ?>
+
+                <input type="text" class="form-control" name="captcha" id="captcha" value="" />
+                <span class="text-danger">{{{ $errors->first('captcha') }}}</span>
+
+            </div>
+            <!-- ./ password confirm -->
+
             <!-- Signup button -->
             <div class="control-group">
                 <div class="controls">

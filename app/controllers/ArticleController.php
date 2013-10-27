@@ -15,8 +15,10 @@ class ArticleController extends AuthorizedController
      * @var      array
      */
     protected $whitelist = array(
+        'getIndex'
 
     );
+
 
     /**
      * Main users page.

@@ -3,9 +3,23 @@
 @section('content')
 
         <div class="row">
-            <h3 class="page-title">Blog</h3>
-        @foreach($blogs as $blog)
+        <h3 class="page-title"></h3>
+      
+      
+          <a class="btn btn-add-blog" href="{{{ URL::to('blogs/add') }}}"><span class="glyphicon glyphicon-plus"></span> Add An Blog</a>
+        
+        </div>
 
+        <div class="row">
+            <h3 class="page-title"></h3>
+            @if ($message = Session::get('success'))
+            <div class="span12 alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                <h4>Success</h4>
+                {{{ $message }}}
+            </div>
+            @endif
+        @foreach($blogs as $blog)
             <div class="col-md-5 margin-box front-content blog-color">
 
                  <h4><a href="{{{ URL::to('blogs/blog/'.$blog->id) }}}">{{ $blog->title}}</a></h4>
