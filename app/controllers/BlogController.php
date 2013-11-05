@@ -37,13 +37,13 @@ class BlogController extends AuthorizedController
 
     }
 
-    public function getBlog($id)
+    public function getNote($id)
     {
         $blog = Blog::find($id);
 
         $blogs = Blog::all();
 
-        return View::make('blogs.blog', array('blog' => $blog, 'blogs' => $blogs));
+        return View::make('blogs.note', array('blog' => $blog, 'blogs' => $blogs));
     }
 
 
@@ -58,16 +58,21 @@ class BlogController extends AuthorizedController
     {
          $blog = Blog::find($id);
 
-        // $admin = User::where('user_role', 'LIKE', 'admin')->get();
+         //$admin = User::where('user_role', 'LIKE', 'admin')->get();
         //
-        if (Auth::check())
+        if (Auth::user()->getRole() == 'admin')
         {
             return View::make('blogs/add', array('blog' => $blog));
+        }
+        else
+        {
+            header('Location: /notes');
+            exit();
         }
 
         // Show the page.
         //
-        return View::make('blogs');
+        return View::make('/');
     }
 
     /**
@@ -104,12 +109,12 @@ class BlogController extends AuthorizedController
 
             // Redirect to the register page.
             //
-            return Redirect::to('blogs')->with('success', 'Blog updated with success!');
+            return Redirect::to('notes')->with('success', 'Blog updated with success!');
         }
 
         // Something went wrong.
         //
-        return Redirect::to('blogs/edit/' . Input::get('blog_id'))->withInput($inputs)->withErrors($validator->getMessageBag());
+        return Redirect::to('notes/edit/' . Input::get('blog_id'))->withInput($inputs)->withErrors($validator->getMessageBag());
     }
 
     /**
@@ -129,7 +134,7 @@ class BlogController extends AuthorizedController
 
         // Show the page.
         //
-        return View::make('blogs');
+        return View::make('notes');
     }
 
     /**
@@ -174,12 +179,12 @@ class BlogController extends AuthorizedController
 
             // Redirect to the register page.
             //
-            return Redirect::to('blogs')->with('success', 'Thank you! We will show your blog as soon as it gets approved');
+            return Redirect::to('notes')->with('success', 'Thank you! We will show your blog as soon as it gets approved');
         }
 
         // Something went wrong.
         //
-        return Redirect::to('blogs/add')->withInput($inputs)->withErrors($validator->getMessageBag());
+        return Redirect::to('notes/add')->withInput($inputs)->withErrors($validator->getMessageBag());
     }
 
 

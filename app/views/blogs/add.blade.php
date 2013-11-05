@@ -10,14 +10,14 @@
 @section('content')
 
 <div class="row">
-    <h3 class="page-title">Share Your Idea</h3>
+    <h3 class="page-title">Post Your Notes</h3>
     <div class="col-md-8">
         <form role="form" method="post" action="">
             <!-- CSRF Token -->
             <input type="hidden" name="csrf_token" id="csrf_token" value="{{{ Session::getToken() }}}" />
 
 
-            @if (Request::is('blogs/edit/*'))
+            @if (Request::is('notes/edit/*'))
                
                     <div class="form-group">
                         <label class="checkbox-inline">
@@ -28,7 +28,7 @@
                           <input type="radio" name="blog_post_status" id="inlineCheckbox2" value="DENY"> 
                           <span class="btn-danger btn-lg">DENY</span>
                         </label>
-                    </form>
+
 
                     <input type="hidden" name="blog_id" value="{{ $blog->id }}">
                 
@@ -38,7 +38,7 @@
             <div class="form-group {{{ $errors->has('first_name') ? 'text-error' : '' }}}">
                 <label for="title">Title</label>
                     <input class="form-control" type="text" name="title" id="title" 
-                    @if (Request::is('blogs/edit/*'))
+                    @if (Request::is('notes/edit/*'))
                     value="{{ Request::old('title', $blog->title) }}" 
                     @elseif
                      value="{{ Request::old('title') }}"
@@ -51,7 +51,7 @@
             <div class="form-group {{{ $errors->has('content') ? 'error' : '' }}}">
                 <label for="content">Body</label>
                     <textarea class="blog-area form-control" rows="25" name="content" value="{{{ Request::old('content') }}}">
-                    @if (Request::is('blogs/edit/*'))
+                    @if (Request::is('notes/edit/*'))
                         {{ Purifier::clean($blog->content) }}
                     @endif
                     </textarea>

@@ -29,26 +29,77 @@ class ArticleController extends AuthorizedController
     public function getIndex()
     {
         // show the page with blogs
-        $articles = Article::take(1)->orderBy('created_at', 'DESC')->paginate(6);
-
+        $articles = Article::where('article_status','LIKE', 'APPROVED')->orderBy('created_at', 'DESC')->paginate(6);
 
         //$user =  User::find(Auth::user()->id);
-
-
 
         return View::make('articles/index')->with('articles', $articles);
 
 
     }
 
-    /*
-    public function getEvent($id)
+    public function getAdmin($id)
     {
-        $article = Event::find($id);
+        $article = Article::find($id);
 
-        return View::make('events.event', array('event' => $event));
+
+
+        if (Auth::user()->getRole() == 'admin')
+        {
+            return View::make('articles/article', array('article' => $article));
+        }
+        else
+        {
+            header('Location: /articles');
+            exit();
+        }
+        // Show the page.
+        //
+        header('Location: /');
+        exit();
     }
-    */
+
+    /**
+     * Show the edit page
+     *
+     * @access   public
+     * @return   Redirect
+     */
+    public function postAdmin()
+    {
+        // Declare the rules for the form validation.
+        //
+        $rules = array(
+            'article_status' => 'Required'
+        );
+
+        // Get all the inputs.
+        //
+        $inputs = Input::all();
+
+        // Validate the inputs.
+        //
+        $validator = Validator::make($inputs, $rules);
+
+        // Check if the form validates with success.
+        //
+        if ($validator->passes())
+        {
+            // Create the user.
+            //
+            $article                     =  Article::find(Input::get('article_id'));
+            $article->article_status     =  Input::get('article_status');
+            $article->save();
+
+            // Redirect to the event page.
+            //
+            return Redirect::to('articles')->with('success', 'Article updated with success!');
+        }
+
+        // Something went wrong.
+        //
+        return Redirect::to('articles/admin/' . Input::get('article_id'))->withInput($inputs)->withErrors($validator->getMessageBag());
+    }
 
 
     /**

@@ -64,11 +64,11 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
              @if (Auth::check())
-                @if (isset($admin))
+                @if (Auth::user()->getRole() == 'admin' && Request::is('/'))
                     <ul class="nav navbar-nav navbar-left">
                         <div class="admin-alert">
                             <strong>Hey Admin!</strong> You have
-                            <a data-toggle="modal" href="#inReview"  class="label label-danger">{{ count($in_review_blogs) + count($in_review_events)}}</a> posts to review!
+                            <a data-toggle="modal" href="#inReview"  class="label label-danger">{{ count($in_review_blogs) + count($in_review_events) + count($in_review_articles)}}</a> posts to review!
                         </div>
                     </ul>
                 @endif
@@ -80,8 +80,8 @@
                     -->
                     <li class="divider-vertical"></li>
                         <li {{{ (Request::is('blogs') ? 'class="active"' : '') }}}>
-                             <a class="btn-blog btn btn-nav" href="{{{ URL::to('blogs/add') }}}">
-                                  Add Blog</a>
+                             <a class="btn-blog btn btn-nav" href="{{{ URL::to('notes/add') }}}">
+                                  Add A Note</a>
                         </li>
                          <li {{{ (Request::is('events') ? 'class="active"' : '') }}}>
                             <a class="btn btn-event btn-nav" href="{{{ URL::to('events/add') }}}">
@@ -121,11 +121,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-2">
-                        <h1>IIIE.</h1>
+                        <h1><a href="/">IIIE.</a></h1>
                     </div>
 
                     <!-- Social Links -->
-                    <div class="col-md-2 col-md-offset-7">
+                    <div class="col-md-3 col-md-offset-7">
                         <ul class="social-links">
                             <li><a href=""><div class="facebook-icon"></div></a></li>
                             <li><a href=""><div class="youtube-icon"></div></a></li>
@@ -142,9 +142,9 @@
             <div class="container">
                 <div class="row">
                     <ul class="nav nav-pills content-nav">
-                        <li {{ (Request::is('server.php') ? 'class="active"' : '') }}><a href="">Home</a></li>
+                        <li {{ (Request::is('server.php') ? 'class="active"' : '') }}><a href="/">Home</a></li>
                         <li {{ (Request::is('events') ? 'class="active"' : '') }}><a href="{{{ URL::to('events') }}}">Events</a></li>
-                        <li {{ (Request::is('blogs') ? 'class="active"' : '') }}><a href="{{{ URL::to('blogs') }}}">Blog</a></li>
+                        <li {{ (Request::is('notes') ? 'class="active"' : '') }}><a href="{{{ URL::to('notes') }}}">Notes</a></li>
                         <li {{ (Request::is('articles') ? 'class="active"' : '') }}><a href="{{{ URL::to('articles') }}}">Articles</a></li>
                         <li {{ (Request::is('resources') ? 'class="active"' : '') }}><a href="{{{ URL::to('resources') }}}">Resources</a></li>
                         <li {{ (Request::is('videos') ? 'class="active"' : '') }}><a href="#">Videos</a></li>

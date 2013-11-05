@@ -15,7 +15,7 @@
 Route::controller('account','AccountController' );
 Route::get('/', 'HomeController@showIndex');
 
-Route::controller('blogs','BlogController');
+Route::controller('notes','BlogController');
 
 
 Route::controller('events','EventController' );

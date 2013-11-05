@@ -30,7 +30,7 @@ class EventController extends AuthorizedController
         // show the page with blogs
 
 
-        $events = Event::take(1)->orderBy('created_at', 'DESC')->paginate(9);
+        $events = Event::where('event_status','LIKE', 'APPROVED')->orderBy('created_at', 'DESC')->paginate(9);
 
         //$user =  User::find(Auth::user()->id);
 
@@ -51,6 +51,69 @@ class EventController extends AuthorizedController
         return View::make('events.event', array('event' => $event));
     }
 
+    public function getAdmin($id)
+    {
+        $event = Event::find($id);
+
+
+
+        if (Auth::user()->getRole() == 'admin')
+        {
+            return View::make('events/admin', array('event' => $event));
+        }
+        else
+        {
+            header('Location: /events');
+            exit();
+        }
+
+        // Show the page.
+        //
+        return URL::to('/');
+    }
+
+    /**
+     * Show the edit page
+     *
+     * @access   public
+     * @return   Redirect
+     */
+    public function postAdmin()
+    {
+        // Declare the rules for the form validation.
+        //
+        $rules = array(
+            'event_status' => 'Required'
+        );
+
+        // Get all the inputs.
+        //
+        $inputs = Input::all();
+
+        // Validate the inputs.
+        //
+        $validator = Validator::make($inputs, $rules);
+
+        // Check if the form validates with success.
+        //
+        if ($validator->passes())
+        {
+            // Create the user.
+            //
+            $event                   =  Event::find(Input::get('event_id'));
+            $event->event_status     =  Input::get('event_status');
+            $event->save();
+
+            // Redirect to the event page.
+            //
+            return Redirect::to('events')->with('success', 'Event updated with success!');
+        }
+
+        // Something went wrong.
+        //
+        return Redirect::to('events/admin/' . Input::get('event_id'))->withInput($inputs)->withErrors($validator->getMessageBag());
+    }
+
 
     /**
      * Show the page to add events
@@ -69,7 +132,7 @@ class EventController extends AuthorizedController
 
         // Show the page.
         //
-        return View::make('blogs');
+        return View::make('events');
     }
 
     /**
@@ -126,12 +189,4 @@ class EventController extends AuthorizedController
         //
         return Redirect::to('events/add')->withInput($inputs)->withErrors($validator->getMessageBag());
     }
-
-    /**
-     * Logout page.
-     *
-     * @access   public
-     * @return   Redirect
-     */
-
 }

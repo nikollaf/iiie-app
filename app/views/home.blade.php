@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-        @if (Auth::check())
+        @if (Auth::check() && Auth::user()->getRole() == 'admin')
         <!-- Modal -->
         <div class="modal fade" id="inReview" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -11,25 +11,40 @@
                         <h4 class="modal-title">In Review</h4>
                     </div>
                     <div class="modal-body">
-                        <h4>Blogs</h4>
-                        @foreach($in_review_blogs as $blog)
 
-                            <h5><a href="{{{ URL::to('blogs/edit/'.$blog->id) }}}">{{ $blog->title}}</a></h5>
+                            <h4>Blogs</h4>
 
+                            @foreach($in_review_blogs as $blog)
+                                <p><a href="{{{ URL::to('notes/edit/'.$blog->id) }}}">{{ $blog->title}}</a></p>
+                            @endforeach
+                            <hr>
+                            <h4>Events</h4>
 
-                                <span class="blog-cred">by</span><a class="blog-author" href=""> {{{ $blog->user->fullName() }}}</a>
-                                <span class="bloc-date">{{ date("M j, Y", strtotime($blog->created_at)) }}</span>
-                        @endforeach
-                    </div>
+                            @foreach($in_review_events as $event)
+
+                                 <p><a href="{{{ URL::to('events/admin/'.$event->id) }}}">{{ $event->event_title}}</a></p>
+                            @endforeach
+                             <hr>
+                            <h4>Articles</h4>
+
+                            @foreach($in_review_articles as $article)
+                                <p><a href="{{{ URL::to('articles/admin/'.$article->id) }}}">{{ $article->article_title}}</a></p>
+                            @endforeach
+                        </div>
+
 
 
                     <div class="modal-footer">
+                        <!--
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         <button type="button" class="btn btn-primary">Save changes</button>
+                        -->
                     </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+            <!-- /.modal-dialog -->
+        <!-- /.modal -->
         @endif
 
     <div class="row">
@@ -49,13 +64,13 @@
 
 
         <div class="col-md-4 blog-color">
-            <h3><a href="{{{ URL::to('blogs') }}}">Blog</a></h3>
+            <h3><a href="{{{ URL::to('notes') }}}">Notes</a></h3>
             @foreach($blogs as $blog)
                 <div class="front-content blog-bloc">
-                 <h4><a href="{{{ URL::to('blogs/blog/'.$blog->id) }}}">{{ $blog->title}}</a></h4>
+                 <h4><a href="{{{ URL::to('notes/note/'.$blog->id) }}}">{{ $blog->title}}</a></h4>
                  <p>{{ Purifier::clean(Str::limit($blog->content, 70)) }}</p>
                     <p class="bottom-author-date">
-                   <span class="blog-cred">by</span><a class="blog-author" href=""> {{{ $blog->user->fullName() }}}</a>
+                   <span class="blog-cred">by</span><span class="blog-author"> {{{ $blog->user->fullName() }}}</span>
                    <span class="bloc-date">{{ date("M j, Y", strtotime($blog->created_at)) }}</span>
                     </p>
                 </div>
@@ -63,13 +78,13 @@
         </div>
 
         <div class="col-md-4 article-color">
-            <h3><a href="">Articles</a></h3>
+            <h3><a href="{{{ URL::to('articles') }}}">Articles</a></h3>
                 @foreach($articles as $article)
                 <div class="front-content">
                     <h4><a href="{{ $article->article_url }}">{{ $article->article_title}}</a></h4>
-                    <p>{{ Str::limit($article->article_info, 67) }}</p>
+                    <p>{{ Str::limit($article->article_info, 90) }}</p>
                     <p class="bottom-author-date">
-                    <span class="blog-cred">posted by</span> <a class="article-author" href="">{{{ $article->user->fullName() }}}</a>
+                    <span class="blog-cred">posted by</span> <span class="article-author">{{{ $article->user->fullName() }}}</span>
                     <span class="bloc-date">{{ date("M j, Y", strtotime($article->created_at)) }}</span>
                     </p>
                 </div>

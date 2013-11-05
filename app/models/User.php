@@ -39,6 +39,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->password;
 	}
 
+    public function getRole()
+    {
+        return $this->user_role;
+    }
+
     /**
      * Get the user full name.
      *

@@ -6,7 +6,7 @@
         <h3 class="page-title"></h3>
       
       
-          <a class="btn btn-add-blog" href="{{{ URL::to('blogs/add') }}}"><span class="glyphicon glyphicon-plus"></span> Add An Blog</a>
+          <a class="btn btn-add-blog" href="{{{ URL::to('notes/add') }}}"><span class="glyphicon glyphicon-plus"></span> Add A Note</a>
         
         </div>
 
@@ -22,9 +22,9 @@
         @foreach($blogs as $blog)
             <div class="col-md-5 margin-box front-content blog-color">
 
-                 <h4><a href="{{{ URL::to('blogs/blog/'.$blog->id) }}}">{{ $blog->title}}</a></h4>
+                 <h4><a href="{{{ URL::to('notes/note/'.$blog->id) }}}">{{ $blog->title}}</a></h4>
                  <p class="blog-cred">{{ $blog->user->fullName() . " - " . date("M j, Y", strtotime($blog->created_at))}}</p>
-                 <p>{{ Purifier::clean(Str::limit($blog->content, 180)) }}</p>
+                 <p>{{ Purifier::clean(Str::limit($blog->content, 190)) }}</p>
 
             </div>
         @endforeach

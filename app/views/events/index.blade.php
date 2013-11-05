@@ -3,13 +3,21 @@
 @section('content')
 
     <div class="row">
-        <h3 class="page-title">Events</h3>
+        <h3 class="page-title"></h3>
+
+
+        <a class="btn btn-add-event" href="{{{ URL::to('events/add') }}}"><span class="glyphicon glyphicon-plus"></span> Add An Event</a>
+
+    </div>
+
+    <div class="row">
+        <h3 class="page-title"></h3>
         @foreach($events as $event)
             <div class="col-md-4">
                 <div class="front-content margin-event event-color">
                     <h4><a href="{{{ URL::to('events/event/'.$event->id) }}}">{{ $event->event_title}}</a></h4>
 
-                    <p>{{ $event->event_info}}</p>
+                    <p>{{ Str::limit($event->event_info, 90)}}</p>
                     <address>
                         <strong>Address</strong><br>
                         {{ $event->address }}<br>
